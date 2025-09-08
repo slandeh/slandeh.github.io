@@ -1,3 +1,5 @@
+const divisionNameRegex = /.*(divisions|division|junior|senior|master|all).*/i;
+
 // Extracts the pairings from the pairings.html file, and repackages them into the fancier pairings.html
 function extractPairingsAndPopulatePage() {
     const cacheBuster = `cb=${Date.now()}`;
@@ -49,11 +51,18 @@ function extractPairingsAndPopulatePage() {
                 }
 
                 let rosterMode = false;
-                // if an h3 elements contains the word 'Roster', then we're in roster mode
+                let standingsMode = false;
+                // if an h3 element contains the word 'Roster', then we're in roster mode
                 const rosterHeader = Array.from(doc.querySelectorAll("h3")).find(h3 => h3.innerText.toLowerCase().includes("roster"));
+                // if an h3 element contains the word 'Standings', then we're in standings mode
+                const standingsHeader = Array.from(doc.querySelectorAll("h3")).find(h3 => h3.innerText.toLowerCase().includes("standings"));
+                // if an h3 element
                 if (rosterHeader) {
                     rosterMode = true;
                     headingText.innerText = rosterHeader.innerText;
+                } else if (standingsHeader) {
+                    standingsMode = true;
+                    headingText.innerText = standingsHeader.innerText;
                 }
                 document.getElementById("roster-mode-text").hidden = !rosterMode;
 
@@ -66,10 +75,10 @@ function extractPairingsAndPopulatePage() {
 
                 // now, find the division names
                 // These are in h3 tags, and contain 'Division' in the text
-                const divisionHeaders = Array.from(doc.querySelectorAll("h3"))
-                    .map(h3 => h3.innerText.replace('--', '-').replace("ivisions", "ivision")).filter((text) =>
-                        text.toLowerCase().includes("division")
-                    );
+                const divisionHeaders = Array.from(doc.querySelectorAll(standingsMode ? "h2" : "h3"))
+                    .map(h3 => h3.innerText.replace('--', '-')).filter((text) =>
+                        text.toLowerCase().match(divisionNameRegex)
+                    ).map((text) => text.replace(' Entered', '')); // save some space
 
 
                 // combine the tables and division names into a single array
@@ -77,9 +86,14 @@ function extractPairingsAndPopulatePage() {
                 for (let i = 0; i < Math.max(divisionHeaders.length, parsedTables.length); i++) {
                     const divisionName = divisionHeaders[i] || `Division ${i + 1}`;
                     const table = parsedTables[i] || [];
-                    // sort the table by pinned player first, then by name
+                    // sort the table by pinned player first, then by name, unless in standings mode
                     const pinnedPlayerLower = (pinnedPlayer ?? '').toLowerCase().replace(/\s+/g, '');
                     table.sort((a, b) => {
+                        if (standingsMode) {
+                            return a['Standing'] - b['Standing'];
+                        }
+
+                        // else, sort by pinned player first, then by name
                         const aIsPinned = a["Name"].toLowerCase().replace(/\s+/g, '') === (pinnedPlayerLower);
                         const bIsPinned = b["Name"].toLowerCase().replace(/\s+/g, '') === (pinnedPlayerLower);
                         if (aIsPinned && !bIsPinned) return -1;
@@ -126,9 +140,15 @@ function extractPairingsAndPopulatePage() {
                     table.classList.add("pairings-table");
                     const thead = document.createElement("thead");
                     const headerRow = document.createElement("tr");
-                    (rosterMode ? ["Player"] : ["Table", "Player 1", "Player 2"]).forEach((col) => {
+                    let headers = ["Table", "Name", "Opponent"];
+                    if (rosterMode) {
+                        headers = ["Player"];
+                    } else if (standingsMode) {
+                        headers = ["Standing", "Player", "Opponent's<br/>Win %", "Opponent's<br/>Opponent's<br/>Win %"];
+                    }
+                    (headers).forEach((col) => {
                         const th = document.createElement("th");
-                        th.innerText = col;
+                        th.innerHTML = col;
                         headerRow.appendChild(th);
                     });
                     thead.appendChild(headerRow);
@@ -138,13 +158,26 @@ function extractPairingsAndPopulatePage() {
                         const row = document.createElement("tr");
                         // if the pairing has a 'Name' that matches the pinned player, highlight the row
                         const isPinned = pairing["Name"].toLowerCase().replace(/\s+/g, '') === ((pinnedPlayer ?? '').toLowerCase().replace(/\s+/g, ''));
-                        if (isPinned) {
+                        if (isPinned && !standingsMode) {
                             row.classList.add("highlighted-row");
                         }
-                        if (!rosterMode) {
+                        if (!rosterMode && !standingsMode) {
                             const tableCell = document.createElement("td");
                             tableCell.innerText = pairing["Table"] || "";
                             row.appendChild(tableCell);
+                        }
+                        if (standingsMode) {
+                            const standingCell = document.createElement("td");
+                            standingCell.innerText = pairing["Standing"] || "";
+                            if (pairing["Standing"] == 1) {
+                                standingCell.style.color = "#C9B037";
+                            } else if (pairing["Standing"] == 2) {
+                                standingCell.style.color = "#A9A9A9";
+                            } else if (pairing["Standing"] == 3) {
+                                standingCell.style.color = "#CD7F32"; 
+                            }
+                            standingCell.style.fontWeight = "bold";
+                            row.appendChild(standingCell);
                         }
                         const nameCell = document.createElement("td");
                         nameCell.classList.add("player-name-cell");
@@ -164,7 +197,9 @@ function extractPairingsAndPopulatePage() {
                             history.replaceState(null, null, url.pathname + url.search + '#' + division.name.replace(/\s+/g, '-').toLowerCase());
                             extractPairingsAndPopulatePage();
                         };
-                        nameContainer.appendChild(pinButton);
+                        if (!standingsMode) {
+                            nameContainer.appendChild(pinButton);
+                        }
                         nameCell.appendChild(nameContainer);
                         const nameText = document.createElement("span");
                         nameText.classList.add("player-name");
@@ -184,9 +219,14 @@ function extractPairingsAndPopulatePage() {
                             recPill.innerHTML = recStr;
                             recPill.classList.add("record-pill");
                             nameContainer.appendChild(recPill);
+                        } else {
+                            // if the pairing has no record, add a placeholder
+                            const placeholder = document.createElement("span");
+                            placeholder.style.flexGrow = "1";
+                            nameContainer.appendChild(placeholder);
                         }
                         row.appendChild(nameCell);
-                        if (!rosterMode) {
+                        if (!rosterMode && !standingsMode) {
 
                             const opponentCell = document.createElement("td");
 
@@ -212,6 +252,14 @@ function extractPairingsAndPopulatePage() {
                                 opponentContainer.appendChild(recPill);
                             }
                             row.appendChild(opponentCell);
+                        }
+                        if (standingsMode) {
+                            const opponentWinPctCell = document.createElement("td");
+                            opponentWinPctCell.innerText = pairing["Opponents'Win %"] || "";
+                            row.appendChild(opponentWinPctCell);
+                            const opponentOpponentWinPctCell = document.createElement("td");
+                            opponentOpponentWinPctCell.innerText = pairing["Opponents'Opponents'Win %"] || "";
+                            row.appendChild(opponentOpponentWinPctCell);
                         }
 
                         tbody.appendChild(row);
@@ -275,19 +323,20 @@ function pairingsTableToJSON(table) {
             let recordData = null;
             // TODO: Take care of the ' - SR' at the end for mixed divisions
             // TODO: Take care of the * at the end for tardiness
-            const match = rawText.match(/^(.*?)(?:\s*\((\d+)\/(\d+)\/(\d+)\s*\((\d+)\).*\)).*?$/);
+            const match = rawText.match(/^(.*?)(?:\s*(\(|)(\d+)\/(\d+)\/(\d+)\s*\((\d+)\).*(\)|)).*?$/);
+
             if (match) {
                 value = match[1].trim();
                 recordData = {};
-                if (match[2] !== undefined) recordData["wins"] = parseInt(match[2], 10);
-                if (match[3] !== undefined) recordData["losses"] = parseInt(match[3], 10);
-                if (match[4] !== undefined) recordData["ties"] = parseInt(match[4], 10);
-                if (match[5] !== undefined) recordData["points"] = parseInt(match[5], 10);
+                if (match[3] !== undefined) recordData["wins"] = parseInt(match[3], 10);
+                if (match[4] !== undefined) recordData["losses"] = parseInt(match[4], 10);
+                if (match[5] !== undefined) recordData["ties"] = parseInt(match[5], 10);
+                if (match[6] !== undefined) recordData["points"] = parseInt(match[6], 10);
             } else {
                 value = rawText; // fallback to just the raw text
             }
             obj[headers[index]] = value;
-            if (headers[index].toLowerCase().trim() === "name" && recordData) {
+            if (headers[index].toLowerCase().trim() === "name" || headers[index].toLowerCase().trim() === "matchrecord" && recordData) {
                 obj["playerRecord"] = recordData;
             } else if (headers[index].toLowerCase().trim() === "opponent" && recordData) {
                 obj["opponentRecord"] = recordData;

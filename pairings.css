@@ -14,13 +14,13 @@ body {
 }
 
 a {
-    color: #fa4251;
+    color: rgb(225, 27, 34);
     text-decoration: none;
 }
 
 #roster-mode-text {
     text-align: center;
-    color: #fa4251;
+    color: rgb(225, 27, 34);
     font-weight: bold;
     margin-bottom: 0;
 }
@@ -88,6 +88,7 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
 }
@@ -99,10 +100,13 @@ a {
     margin-left: 5px;
     margin-right: 5px;
     background: #fff;
-    color: #fa4251;
+    color: rgb(225, 27, 34);
     border: 1px solid #f7b3b8;
-    border-radius: 4px;
+    border-radius: 100px;
+    border-color: rgb(225, 27, 34);
     padding: 8px 20px;
+    max-height: 40px;
+    margin-bottom: 4px;
     font-size: 1em;
     font-weight: 500;
     box-shadow: 0 2px 4px rgba(250, 66, 81, 0.08), 0 1.5px 6px rgba(0, 0, 0, 0.08);
@@ -120,7 +124,7 @@ a {
 
     &:active {
         background: #fbbbc3;
-        color: #c0152a;
+        color:rgb(225, 27, 34);
         border-color: #f6647a;
         box-shadow: 0 1px 3px rgba(250, 66, 81, 0.10), 0 1px 4px rgba(0, 0, 0, 0.08);
     }
@@ -138,6 +142,8 @@ a {
     margin-top: 0;
     margin-bottom: 0.5em;
     margin-left: 30px;
+    display: flex;
+    flex-direction: row;
 }
 
 .division {
@@ -200,7 +206,7 @@ td {
 
 th {
     font-size: 15px;
-    color: #fa4251;
+    color: rgb(225, 27, 34);
     background-color: white !important;
     border-bottom: 1px solid #cccccc;
     padding: 14px 5px;
@@ -212,6 +218,10 @@ td {
     color: gray;
     line-height: 1.5;
     max-width: 50%;
+}
+
+tbody td:nth-child(4) {
+    border-left: 1px solid #ccccccbb;
 }
 
 tbody td:nth-child(3) {
