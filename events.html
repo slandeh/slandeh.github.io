@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>League Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* =============================================
+     SEASONAL THEME — Update these each season!
+     Current season: Spring (Sprigatito)
+     ============================================= */
+  :root {
+    --season-primary:       #3a7d44;  /* Main green */
+    --season-secondary:     #5aac68;  /* Lighter green */
+    --season-accent:        #a8d5a2;  /* Soft green highlight */
+    --season-accent-pale:   #eaf5eb;  /* Very light green bg tint */
+    --season-text-on-primary: #ffffff;
+    --season-hero-bg:       #2d6a38;  /* Hero section bg */
+
+    /* These don't need to change each season */
+    --tcg-color:   #3b6fa0;
+    --tcg-pale:    #e8f0f8;
+    --tcg-text:    #1e3f5e;
+    --vgc-color:   #c0392b;
+    --vgc-pale:    #fdecea;
+    --vgc-text:    #6b1c16;
+    --go-color:    #4a9e5c;
+    --go-pale:     #eaf6ed;
+    --go-text:     #1e5c2a;
+    --league-color: #c8960c;
+    --league-pale:  #fef9e7;
+    --league-text:  #6b4e07;
+
+    --font-display: 'Nunito', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+    --radius-sm:    8px;
+    --radius-md:    12px;
+    --radius-lg:    18px;
+    --shadow-card:  0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: #f7f8f5;
+    color: #1a1a1a;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    background: var(--season-hero-bg);
+    color: var(--season-text-on-primary);
+    padding: 2rem 1.25rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .hero-text { flex: 1; padding-bottom: 1.5rem; }
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.4rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+  .hero-tagline {
+    font-size: 0.95rem;
+    opacity: 0.88;
+    max-width: 340px;
+    line-height: 1.55;
+  }
+  .hero-pokemon {
+    width: 130px;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+  .hero-pokemon img {
+    width: 100%;
+    display: block;
+    /* Drop shadow so it pops off the bg */
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  }
+  /* Decorative leaf shapes */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  /* ---- MAIN CONTENT ---- */
+  .content {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  /* ---- FORMAT INFO (collapsible on mobile) ---- */
+  .format-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .format-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: left;
+  }
+  .format-toggle:hover { background: #fafaf8; }
+  .format-toggle-label { display: flex; align-items: center; gap: 0.6rem; }
+  .format-caret {
+    transition: transform 0.2s;
+    font-size: 12px;
+    opacity: 0.5;
+  }
+  .format-toggle[aria-expanded="true"] .format-caret { transform: rotate(180deg); }
+  .format-body {
+    display: none;
+    padding: 1rem 1.25rem 1.25rem;
+    border-top: 1px solid #f0f0ee;
+  }
+  .format-body.open { display: block; }
+  .format-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .format-tab {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: #f0f0ee;
+    color: #555;
+    transition: all 0.15s;
+  }
+  .format-tab.active-tcg { background: var(--tcg-pale); color: var(--tcg-text); border-color: var(--tcg-color); }
+  .format-tab.active-vgc { background: var(--vgc-pale); color: var(--vgc-text); border-color: var(--vgc-color); }
+  .format-tab.active-go  { background: var(--go-pale);  color: var(--go-text);  border-color: var(--go-color); }
+  .format-panel { display: none; }
+  .format-panel.active { display: block; }
+  .format-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+  }
+  .format-desc {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.6;
+  }
+  .format-sets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.65rem;
+  }
+  .format-set-tag {
+    font-size: 0.75rem;
+    background: #f0f0ee;
+    color: #444;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* ---- FILTERS ---- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #666;
+    font-family: var(--font-display);
+    margin-right: 0.2rem;
+  }
+  .filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: #555;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .filter-chip input[type="checkbox"] { display: none; }
+  .filter-chip.checked-tcg { background: var(--tcg-pale); color: var(--tcg-text); border-color: var(--tcg-color); }
+  .filter-chip.checked-vgc { background: var(--vgc-pale); color: var(--vgc-text); border-color: var(--vgc-color); }
+  .filter-chip.checked-go  { background: var(--go-pale);  color: var(--go-text);  border-color: var(--go-color); }
+  .filter-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-tcg { background: var(--tcg-color); }
+  .dot-vgc { background: var(--vgc-color); }
+  .dot-go  { background: var(--go-color); }
+
+  /* ---- EVENT CARDS ---- */
+  .events-list { display: flex; flex-direction: column; gap: 0.85rem; }
+
+  .event-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    border-left: 4px solid #ddd;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  .event-card[data-type="TCG"] { border-left-color: var(--tcg-color); }
+  .event-card[data-type="VGC"] { border-left-color: var(--vgc-color); }
+  .event-card[data-type="GO"]  { border-left-color: var(--go-color); }
+  .event-card[data-type="LEAGUE"] { border-left-color: var(--league-color); }
+
+  .event-inner {
+    padding: 1rem 1.1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  /* Date block */
+  .event-date {
+    flex-shrink: 0;
+    text-align: center;
+    width: 46px;
+  }
+  .event-date-month {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+  }
+  .event-date-day {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #1a1a1a;
+  }
+  .event-date-dow {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Event details */
+  .event-details { flex: 1; min-width: 0; }
+  .event-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.2rem;
+  }
+  .event-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+  .event-badge {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-TCG    { background: var(--tcg-pale);    color: var(--tcg-text); }
+  .badge-VGC    { background: var(--vgc-pale);    color: var(--vgc-text); }
+  .badge-GO     { background: var(--go-pale);     color: var(--go-text); }
+  .badge-LEAGUE { background: var(--league-pale); color: var(--league-text); }
+
+  .event-meta {
+    font-size: 0.82rem;
+    color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .event-meta-item { display: flex; align-items: center; gap: 0.3rem; }
+  .event-meta-icon { font-size: 12px; }
+
+  .event-desc {
+    font-size: 0.83rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 0.6rem;
+  }
+
+  .event-footer { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .event-link {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .event-link:hover { opacity: 0.82; }
+  .link-prereg {
+    background: var(--season-primary);
+    color: white;
+  }
+  .link-info {
+    background: #f0f0ee;
+    color: #333;
+  }
+
+  /* League card special styling */
+  .event-card[data-type="LEAGUE"] .event-date-day { color: var(--league-color); }
+
+  /* Past events / no results */
+  .no-results {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  .no-results-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+  /* ---- FOOTER ---- */
+  .legal {
+    margin-top: 3rem;
+    padding: 1.25rem;
+    border-top: 1px solid #e8e8e4;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #aaa;
+    line-height: 1.6;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---- DESKTOP ---- */
+  @media (min-width: 600px) {
+    .hero { padding: 2.5rem 2rem 0; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero-pokemon { width: 160px; }
+    .content { padding: 2rem 2rem 4rem; }
+    .event-inner { padding: 1.1rem 1.4rem; }
+  }
+
+  @media (min-width: 900px) {
+    .hero-pokemon { width: 190px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     HERO SECTION
+     To update the seasonal Pokemon image, replace
+     the src below with your new image path.
+     ============================================= -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Play! Pokemon League</div>
+      <h1>Upcoming Events</h1>
+      <p class="hero-tagline">
+        Whether it's your first tournament or your hundredth, there's a spot for you here.
+        Check out what's coming up and jump in whenever you're ready!
+      </p>
+    </div>
+    <div class="hero-pokemon">
+      <!--
+        SEASONAL POKEMON IMAGE
+        Replace this src with the path to your Sprigatito (or seasonal) image.
+        Recommended: a PNG with transparent background, roughly 300x300px.
+        Example: src="images/sprigatito.png"
+      -->
+      <img src="images/sprigatito.png" alt="Sprigatito" onerror="this.style.display='none'">
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- =============================================
+       FORMAT INFO SECTION
+       Update the format names and legal set lists
+       each time the format rotates.
+       ============================================= -->
+  <div class="format-section">
+    <button class="format-toggle" aria-expanded="false" onclick="toggleFormats(this)">
+      <span class="format-toggle-label">
+        &#9432; What format are we playing?
+      </span>
+      <span class="format-caret">&#9660;</span>
+    </button>
+    <div class="format-body" id="format-body">
+      <div class="format-tabs">
+        <button class="format-tab active-tcg" onclick="showFormat('tcg', this)">TCG</button>
+        <button class="format-tab" onclick="showFormat('vgc', this)">VGC</button>
+        <button class="format-tab" onclick="showFormat('go', this)">GO</button>
+      </div>
+
+      <!-- TCG FORMAT — Update when rotation happens -->
+      <div class="format-panel active" id="panel-tcg">
+        <div class="format-name">Standard — Regulation H &amp; I</div>
+        <p class="format-desc">
+          Standard is the main competitive format for the Pokemon Trading Card Game.
+          Only cards from the current legal sets can be used — a great starting point
+          since you won't need every card ever printed! If you're new, don't worry:
+          pre-built theme decks are a totally valid way to get started.
+        </p>
+        <div class="format-sets">
+          <!-- UPDATE THESE TAGS WHEN THE FORMAT ROTATES -->
+          <span class="format-set-tag">Temporal Forces</span>
+          <span class="format-set-tag">Twilight Masquerade</span>
+          <span class="format-set-tag">Shrouded Fable</span>
+          <span class="format-set-tag">Stellar Crown</span>
+          <span class="format-set-tag">Surging Sparks</span>
+          <span class="format-set-tag">Prismatic Evolutions</span>
+          <span class="format-set-tag">Journey Together</span>
+          <span class="format-set-tag">Destined Rivals</span>
+          <span class="format-set-tag">Black Bolt / White Flare</span>
+          <span class="format-set-tag">Mega Evolution</span>
+          <span class="format-set-tag">Phantasmal Flames</span>
+          <span class="format-set-tag">Ascended Heroes</span>
+          <span class="format-set-tag">Perfect Order</span>
+        </div>
+      </div>
+
+      <!-- VGC FORMAT — Update each season -->
+      <div class="format-panel" id="panel-vgc">
+        <div class="format-name">VGC 2025 — Regulation I</div>
+        <p class="format-desc">
+          Video Game Championships uses the latest mainline Pokemon games.
+          Battles are double battles — you bring 4 Pokemon and lead with 2.
+          New to VGC? A great way to get started is practicing with friends using
+          rental teams in casual play — just note that rental teams are
+          <strong>not permitted</strong> in Championship Point-earning events like
+          Cups and Challenges, so you'll want your own registered team for those.
+        </p>
+        <!-- UPDATE THESE TAGS WHEN THE REGULATION CHANGES -->
+        <!-- Regulation label -->
+        <div class="format-sets" style="margin-bottom: 0.5rem;">
+          <span class="format-set-tag" style="background: var(--vgc-pale); color: var(--vgc-text);">Regulation I</span>
+        </div>
+        <!-- Allowed Pokedex sources -->
+        <div style="font-size: 0.72rem; font-weight: 700; font-family: var(--font-display); color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Allowed Pokédex</div>
+        <div class="format-sets" style="margin-bottom: 0.65rem;">
+          <span class="format-set-tag">Paldea Pokédex #001–400</span>
+          <span class="format-set-tag">Kitakami Pokédex #001–200</span>
+          <span class="format-set-tag">Blueberry Pokédex #001–242 (Except Pecharunt)</span>
+          <span class="format-set-tag">Event or Pokémon HOME</span>
+        </div>
+        <!-- Restrictions -->
+        <div style="font-size: 0.72rem; font-weight: 700; font-family: var(--font-display); color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Restrictions</div>
+        <div class="format-sets">
+          <span class="format-set-tag" style="background: #fff3f3; color: #8b1a1a;">2 Restricted Legendary Pokémon</span>
+        </div>
+      </div>
+
+      <!-- GO FORMAT — Update each season -->
+      <div class="format-panel" id="panel-go">
+        <div class="format-name">Pokemon GO — Battle League</div>
+        <p class="format-desc">
+          GO events are played directly in the Pokemon GO app using GO Battle League rules.
+          Bring your phone and get ready for some fast-paced battles!
+          Championship Point-earning events like Cups and Challenges use
+          <strong>Great League only</strong>. Ultra League and Master League
+          are available for casual play during open league sessions.
+        </p>
+        <div class="format-sets">
+          <!-- UPDATE THESE TAGS WHEN THE FORMAT CHANGES -->
+          <span class="format-set-tag">Great League — Competitive</span>
+          <span class="format-set-tag">Ultra League — Casual only</span>
+          <span class="format-set-tag">Master League — Casual only</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       FILTERS
+       ============================================= -->
+  <div class="filters">
+    <span class="filter-label">Show:</span>
+    <label class="filter-chip checked-tcg" id="chip-tcg">
+      <input type="checkbox" checked onchange="applyFilters()">
+      <span class="filter-dot dot-tcg"></span> TCG
+    </label>
+    <label class="filter-chip checked-vgc" id="chip-vgc">
+      <input type="checkbox" checked onchange="applyFilters()">
+      <span class="filter-dot dot-vgc"></span> VGC
+    </label>
+    <label class="filter-chip checked-go" id="chip-go">
+      <input type="checkbox" checked onchange="applyFilters()">
+      <span class="filter-dot dot-go"></span> GO
+    </label>
+  </div>
+
+  <!-- =============================================
+       EVENTS LIST
+       HOW TO ADD AN EVENT:
+       Copy one of the <div class="event-card"> blocks below.
+       - data-type: TCG, VGC, GO, or LEAGUE
+       - data-date: YYYY-MM-DD (used for sorting/display)
+       - Update all the text fields inside.
+       - For pre-reg links, update the href on the .link-prereg anchor.
+       - Remove the prereg link block if the event has no pre-reg.
+       - Keep events in chronological order by date.
+       ============================================= -->
+  <div class="events-list" id="events-list">
+
+    <!-- LEAGUE PLAY — Always visible regardless of filters -->
+    <div class="event-card" data-type="LEAGUE" data-date="2025-04-05">
+      <div class="event-inner">
+        <div class="event-date">
+          <div class="event-date-month">Apr</div>
+          <div class="event-date-day">5</div>
+          <div class="event-date-dow">Sat</div>
+        </div>
+        <div class="event-details">
+          <div class="event-header">
+            <div class="event-name">League Play</div>
+            <span class="event-badge badge-LEAGUE">League</span>
+          </div>
+          <div class="event-meta">
+            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 2:00 PM</span>
+            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
+          </div>
+          <p class="event-desc">
+            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
+            All skill levels welcome — our League Leaders are happy to teach new players.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TCG CUP EXAMPLE — Has pre-registration -->
+    <div class="event-card" data-type="TCG" data-date="2025-04-12">
+      <div class="event-inner">
+        <div class="event-date">
+          <div class="event-date-month">Apr</div>
+          <div class="event-date-day">12</div>
+          <div class="event-date-dow">Sat</div>
+        </div>
+        <div class="event-details">
+          <div class="event-header">
+            <div class="event-name">TCG League Cup</div>
+            <span class="event-badge badge-TCG">TCG</span>
+          </div>
+          <div class="event-meta">
+            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
+            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
+          </div>
+          <p class="event-desc">
+            Earn Championship Points toward Pokemon Worlds qualification!
+            Standard format. Bring a 60-card deck and your Player ID.
+            Pre-registration is encouraged but walk-ins are welcome.
+          </p>
+          <div class="event-footer">
+            <!--
+              UPDATE THIS LINK with your Google Form URL.
+              Remove this entire anchor tag if there is no pre-registration.
+            -->
+            <a class="event-link link-prereg" href="https://forms.google.com/your-form-link-here" target="_blank" rel="noopener">
+              Pre-register
+            </a>
+            <!-- Optional: add a link to more info -->
+            <!-- <a class="event-link link-info" href="#">More info</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VGC CHALLENGE EXAMPLE — No pre-registration -->
+    <div class="event-card" data-type="VGC" data-date="2025-04-19">
+      <div class="event-inner">
+        <div class="event-date">
+          <div class="event-date-month">Apr</div>
+          <div class="event-date-day">19</div>
+          <div class="event-date-dow">Sat</div>
+        </div>
+        <div class="event-details">
+          <div class="event-header">
+            <div class="event-name">VGC League Challenge</div>
+            <span class="event-badge badge-VGC">VGC</span>
+          </div>
+          <div class="event-meta">
+            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 12:00 PM</span>
+            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
+          </div>
+          <p class="event-desc">
+            A great first tournament for VGC players! Smaller and more casual than a Cup,
+            but still earns Championship Points. Bring your Switch and a registered team.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- GO CUP EXAMPLE — Has pre-registration -->
+    <div class="event-card" data-type="GO" data-date="2025-04-26">
+      <div class="event-inner">
+        <div class="event-date">
+          <div class="event-date-month">Apr</div>
+          <div class="event-date-day">26</div>
+          <div class="event-date-dow">Sat</div>
+        </div>
+        <div class="event-details">
+          <div class="event-header">
+            <div class="event-name">Pokemon GO Cup</div>
+            <span class="event-badge badge-GO">GO</span>
+          </div>
+          <div class="event-meta">
+            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 1:00 PM</span>
+            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
+          </div>
+          <p class="event-desc">
+            Compete in GO Battle League format and earn Championship Points!
+            Bring a fully charged phone and your best GO Battle League team.
+          </p>
+          <div class="event-footer">
+            <a class="event-link link-prereg" href="https://forms.google.com/your-go-form-link-here" target="_blank" rel="noopener">
+              Pre-register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRERELEASE EXAMPLE — Has pre-registration -->
+    <div class="event-card" data-type="TCG" data-date="2025-05-03">
+      <div class="event-inner">
+        <div class="event-date">
+          <div class="event-date-month">May</div>
+          <div class="event-date-day">3</div>
+          <div class="event-date-dow">Sat</div>
+        </div>
+        <div class="event-details">
+          <div class="event-header">
+            <div class="event-name">TCG Prerelease</div>
+            <span class="event-badge badge-TCG">TCG</span>
+          </div>
+          <div class="event-meta">
+            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM</span>
+            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
+          </div>
+          <p class="event-desc">
+            Play with brand new cards before they're officially released!
+            Each player receives a Prerelease kit to build a 40-card deck on the spot.
+            No experience needed — this is one of the most beginner-friendly events we run.
+          </p>
+          <div class="event-footer">
+            <a class="event-link link-prereg" href="https://forms.google.com/your-prerelease-form-link-here" target="_blank" rel="noopener">
+              Pre-register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NO RESULTS MESSAGE (hidden by default) -->
+    <div class="no-results" id="no-results" style="display:none;">
+      <div class="no-results-icon">&#128269;</div>
+      <div>No events match your current filters.<br>Try selecting more event types above!</div>
+    </div>
+
+  </div>
+  <!-- end events-list -->
+
+</div>
+<!-- end content -->
+
+<!-- LEGAL FOOTER -->
+<div class="legal">
+  This page is not affiliated with, sponsored by, or created by The Pokémon Company International or Nintendo.
+  All Pokémon names, imagery, and related media are trademarks and &copy; of The Pokémon Company International,
+  Nintendo, and Game Freak. Pokémon and Pokémon character names are trademarks of Nintendo.
+  Play! Pokémon logos and league assets used with permission for league operations only.
+</div>
+
+<script>
+  function toggleFormats(btn) {
+    var body = document.getElementById('format-body');
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !expanded);
+    body.classList.toggle('open', !expanded);
+  }
+
+  var activeFormatTab = 'tcg';
+  function showFormat(type, btn) {
+    document.querySelectorAll('.format-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.format-tab').forEach(function(t) {
+      t.className = 'format-tab';
+    });
+    document.getElementById('panel-' + type).classList.add('active');
+    btn.classList.add('active-' + type);
+    activeFormatTab = type;
+  }
+
+  function applyFilters() {
+    var tcg = document.querySelector('#chip-tcg input').checked;
+    var vgc = document.querySelector('#chip-vgc input').checked;
+    var go  = document.querySelector('#chip-go input').checked;
+
+    document.getElementById('chip-tcg').className = 'filter-chip' + (tcg ? ' checked-tcg' : '');
+    document.getElementById('chip-vgc').className = 'filter-chip' + (vgc ? ' checked-vgc' : '');
+    document.getElementById('chip-go').className  = 'filter-chip' + (go  ? ' checked-go'  : '');
+
+    var cards = document.querySelectorAll('.event-card');
+    var visible = 0;
+    cards.forEach(function(card) {
+      var type = card.getAttribute('data-type');
+      var show = type === 'LEAGUE' ||
+                 (type === 'TCG' && tcg) ||
+                 (type === 'VGC' && vgc) ||
+                 (type === 'GO'  && go);
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>
