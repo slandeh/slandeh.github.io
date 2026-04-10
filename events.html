@@ -11,395 +11,118 @@
      Current season: Spring (Sprigatito)
      ============================================= */
   :root {
-    --season-primary:       #3a7d44;  /* Main green */
-    --season-secondary:     #5aac68;  /* Lighter green */
-    --season-accent:        #a8d5a2;  /* Soft green highlight */
-    --season-accent-pale:   #eaf5eb;  /* Very light green bg tint */
+    --season-primary:         #3a7d44;
+    --season-secondary:       #5aac68;
+    --season-accent:          #a8d5a2;
+    --season-accent-pale:     #eaf5eb;
     --season-text-on-primary: #ffffff;
-    --season-hero-bg:       #2d6a38;  /* Hero section bg */
+    --season-hero-bg:         #2d6a38;
 
-    /* These don't need to change each season */
-    --tcg-color:   #3b6fa0;
-    --tcg-pale:    #e8f0f8;
-    --tcg-text:    #1e3f5e;
-    --vgc-color:   #c0392b;
-    --vgc-pale:    #fdecea;
-    --vgc-text:    #6b1c16;
-    --go-color:    #4a9e5c;
-    --go-pale:     #eaf6ed;
-    --go-text:     #1e5c2a;
-    --league-color: #c8960c;
-    --league-pale:  #fef9e7;
-    --league-text:  #6b4e07;
+    --tcg-color:    #3b6fa0; --tcg-pale:    #e8f0f8; --tcg-text:    #1e3f5e;
+    --vgc-color:    #c0392b; --vgc-pale:    #fdecea; --vgc-text:    #6b1c16;
+    --go-color:     #4a9e5c; --go-pale:     #eaf6ed; --go-text:     #1e5c2a;
+    --league-color: #c8960c; --league-pale: #fef9e7; --league-text: #6b4e07;
 
     --font-display: 'Nunito', sans-serif;
     --font-body:    'DM Sans', sans-serif;
-    --radius-sm:    8px;
-    --radius-md:    12px;
     --radius-lg:    18px;
     --shadow-card:  0 2px 8px rgba(0,0,0,0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--font-body);
-    background: #f7f8f5;
-    color: #1a1a1a;
-    font-size: 16px;
-    line-height: 1.6;
-  }
+  body { font-family: var(--font-body); background: #f7f8f5; color: #1a1a1a; font-size: 16px; line-height: 1.6; }
 
   /* ---- HERO ---- */
-  .hero {
-    background: var(--season-hero-bg);
-    color: var(--season-text-on-primary);
-    padding: 2rem 1.25rem 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-inner {
-    max-width: 680px;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-  }
+  .hero { background: var(--season-hero-bg); color: var(--season-text-on-primary); padding: 2rem 1.25rem 0; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); pointer-events: none; }
+  .hero-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
   .hero-text { flex: 1; padding-bottom: 1.5rem; }
-  .hero-eyebrow {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 0.4rem;
-  }
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
-  }
-  .hero-tagline {
-    font-size: 0.95rem;
-    opacity: 0.88;
-    max-width: 340px;
-    line-height: 1.55;
-  }
-  .hero-pokemon {
-    width: 130px;
-    flex-shrink: 0;
-    align-self: flex-end;
-  }
-  .hero-pokemon img {
-    width: 100%;
-    display: block;
-    /* Drop shadow so it pops off the bg */
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-  }
-  /* Decorative leaf shapes */
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    pointer-events: none;
-  }
+  .hero-eyebrow { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; margin-bottom: 0.4rem; }
+  .hero h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 0.75rem; }
+  .hero-tagline { font-size: 0.95rem; opacity: 0.88; max-width: 340px; line-height: 1.55; }
+  .hero-pokemon { width: 130px; flex-shrink: 0; align-self: flex-end; }
+  .hero-pokemon img { width: 100%; display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
 
-  /* ---- MAIN CONTENT ---- */
-  .content {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 1.5rem 1.25rem 3rem;
-  }
+  /* ---- CONTENT ---- */
+  .content { max-width: 680px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
 
-  /* ---- FORMAT INFO (collapsible on mobile) ---- */
-  .format-section {
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-  }
-  .format-toggle {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    text-align: left;
-  }
+  /* ---- FORMAT INFO ---- */
+  .format-section { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); margin-bottom: 1.5rem; overflow: hidden; }
+  .format-toggle { width: 100%; background: none; border: none; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: #1a1a1a; text-align: left; }
   .format-toggle:hover { background: #fafaf8; }
   .format-toggle-label { display: flex; align-items: center; gap: 0.6rem; }
-  .format-caret {
-    transition: transform 0.2s;
-    font-size: 12px;
-    opacity: 0.5;
-  }
+  .format-caret { transition: transform 0.2s; font-size: 12px; opacity: 0.5; }
   .format-toggle[aria-expanded="true"] .format-caret { transform: rotate(180deg); }
-  .format-body {
-    display: none;
-    padding: 1rem 1.25rem 1.25rem;
-    border-top: 1px solid #f0f0ee;
-  }
+  .format-body { display: none; padding: 1rem 1.25rem 1.25rem; border-top: 1px solid #f0f0ee; }
   .format-body.open { display: block; }
-  .format-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-  .format-tab {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    font-family: var(--font-display);
-    cursor: pointer;
-    border: 2px solid transparent;
-    background: #f0f0ee;
-    color: #555;
-    transition: all 0.15s;
-  }
+  .format-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .format-tab { padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; font-family: var(--font-display); cursor: pointer; border: 2px solid transparent; background: #f0f0ee; color: #555; transition: all 0.15s; }
   .format-tab.active-tcg { background: var(--tcg-pale); color: var(--tcg-text); border-color: var(--tcg-color); }
   .format-tab.active-vgc { background: var(--vgc-pale); color: var(--vgc-text); border-color: var(--vgc-color); }
   .format-tab.active-go  { background: var(--go-pale);  color: var(--go-text);  border-color: var(--go-color); }
   .format-panel { display: none; }
   .format-panel.active { display: block; }
-  .format-name {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 800;
-    margin-bottom: 0.3rem;
-  }
-  .format-desc {
-    font-size: 0.88rem;
-    color: #444;
-    line-height: 1.6;
-  }
-  .format-sets {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.65rem;
-  }
-  .format-set-tag {
-    font-size: 0.75rem;
-    background: #f0f0ee;
-    color: #444;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-family: var(--font-display);
-    font-weight: 600;
-  }
+  .format-name { font-family: var(--font-display); font-size: 1rem; font-weight: 800; margin-bottom: 0.3rem; }
+  .format-desc { font-size: 0.88rem; color: #444; line-height: 1.6; }
+  .format-sets { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.65rem; }
+  .format-set-tag { font-size: 0.75rem; background: #f0f0ee; color: #444; padding: 3px 10px; border-radius: 20px; font-family: var(--font-display); font-weight: 600; }
+  .format-sublabel { font-size: 0.72rem; font-weight: 700; font-family: var(--font-display); color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
 
   /* ---- FILTERS ---- */
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-bottom: 1.25rem;
-    align-items: center;
-  }
-  .filter-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #666;
-    font-family: var(--font-display);
-    margin-right: 0.2rem;
-  }
-  .filter-chip {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 2px solid #ddd;
-    background: white;
-    cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: 700;
-    font-family: var(--font-display);
-    color: #555;
-    transition: all 0.15s;
-    user-select: none;
-  }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; align-items: center; }
+  .filter-label { font-size: 0.8rem; font-weight: 600; color: #666; font-family: var(--font-display); margin-right: 0.2rem; }
+  .filter-chip { display: flex; align-items: center; gap: 0.4rem; padding: 6px 14px; border-radius: 20px; border: 2px solid #ddd; background: white; cursor: pointer; font-size: 0.82rem; font-weight: 700; font-family: var(--font-display); color: #555; transition: all 0.15s; user-select: none; }
   .filter-chip input[type="checkbox"] { display: none; }
   .filter-chip.checked-tcg { background: var(--tcg-pale); color: var(--tcg-text); border-color: var(--tcg-color); }
   .filter-chip.checked-vgc { background: var(--vgc-pale); color: var(--vgc-text); border-color: var(--vgc-color); }
   .filter-chip.checked-go  { background: var(--go-pale);  color: var(--go-text);  border-color: var(--go-color); }
-  .filter-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .filter-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .dot-tcg { background: var(--tcg-color); }
   .dot-vgc { background: var(--vgc-color); }
   .dot-go  { background: var(--go-color); }
 
   /* ---- EVENT CARDS ---- */
   .events-list { display: flex; flex-direction: column; gap: 0.85rem; }
-
-  .event-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    border-left: 4px solid #ddd;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .event-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  }
-  .event-card[data-type="TCG"] { border-left-color: var(--tcg-color); }
-  .event-card[data-type="VGC"] { border-left-color: var(--vgc-color); }
-  .event-card[data-type="GO"]  { border-left-color: var(--go-color); }
+  .event-card { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; border-left: 4px solid #ddd; transition: transform 0.15s, box-shadow 0.15s; }
+  .event-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .event-card[data-type="TCG"]    { border-left-color: var(--tcg-color); }
+  .event-card[data-type="VGC"]    { border-left-color: var(--vgc-color); }
+  .event-card[data-type="GO"]     { border-left-color: var(--go-color); }
   .event-card[data-type="LEAGUE"] { border-left-color: var(--league-color); }
-
-  .event-inner {
-    padding: 1rem 1.1rem;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  /* Date block */
-  .event-date {
-    flex-shrink: 0;
-    text-align: center;
-    width: 46px;
-  }
-  .event-date-month {
-    font-family: var(--font-display);
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #888;
-  }
-  .event-date-day {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 800;
-    line-height: 1;
-    color: #1a1a1a;
-  }
-  .event-date-dow {
-    font-family: var(--font-display);
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* Event details */
+  .event-inner { padding: 1rem 1.1rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .event-date { flex-shrink: 0; text-align: center; width: 46px; }
+  .event-date-month { font-family: var(--font-display); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+  .event-date-day { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; line-height: 1; color: #1a1a1a; }
+  .event-date-dow { font-family: var(--font-display); font-size: 0.65rem; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; }
+  .event-card[data-type="LEAGUE"] .event-date-day { color: var(--league-color); }
   .event-details { flex: 1; min-width: 0; }
-  .event-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.2rem;
-  }
-  .event-name {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 800;
-    line-height: 1.25;
-  }
-  .event-badge {
-    font-family: var(--font-display);
-    font-size: 0.68rem;
-    font-weight: 800;
-    padding: 3px 9px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+  .event-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+  .event-name { font-family: var(--font-display); font-size: 1rem; font-weight: 800; line-height: 1.25; }
+  .event-badge { font-family: var(--font-display); font-size: 0.68rem; font-weight: 800; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
   .badge-TCG    { background: var(--tcg-pale);    color: var(--tcg-text); }
   .badge-VGC    { background: var(--vgc-pale);    color: var(--vgc-text); }
   .badge-GO     { background: var(--go-pale);     color: var(--go-text); }
   .badge-LEAGUE { background: var(--league-pale); color: var(--league-text); }
-
-  .event-meta {
-    font-size: 0.82rem;
-    color: #666;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem 0.75rem;
-    margin-bottom: 0.5rem;
-  }
+  .event-meta { font-size: 0.82rem; color: #666; display: flex; flex-wrap: wrap; gap: 0.2rem 0.75rem; margin-bottom: 0.5rem; }
   .event-meta-item { display: flex; align-items: center; gap: 0.3rem; }
   .event-meta-icon { font-size: 12px; }
-
-  .event-desc {
-    font-size: 0.83rem;
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 0.6rem;
-  }
-
+  .event-desc { font-size: 0.83rem; color: #555; line-height: 1.5; margin-bottom: 0.6rem; }
   .event-footer { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .event-link {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: opacity 0.15s;
-  }
+  .event-link { display: inline-block; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; text-decoration: none; transition: opacity 0.15s; }
   .event-link:hover { opacity: 0.82; }
-  .link-prereg {
-    background: var(--season-primary);
-    color: white;
-  }
-  .link-info {
-    background: #f0f0ee;
-    color: #333;
-  }
+  .link-prereg { background: var(--season-primary); color: white; }
 
-  /* League card special styling */
-  .event-card[data-type="LEAGUE"] .event-date-day { color: var(--league-color); }
-
-  /* Past events / no results */
-  .no-results {
-    text-align: center;
-    padding: 2.5rem 1rem;
-    color: #888;
-    font-size: 0.9rem;
-  }
+  /* ---- LOADING / ERROR STATES ---- */
+  .loading-state { text-align: center; padding: 2.5rem 1rem; color: #888; font-size: 0.9rem; }
+  .loading-spinner { width: 32px; height: 32px; border: 3px solid #e0e0e0; border-top-color: var(--season-primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-state { text-align: center; padding: 2rem 1rem; color: #888; font-size: 0.88rem; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+  .error-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .no-results { text-align: center; padding: 2.5rem 1rem; color: #888; font-size: 0.9rem; }
   .no-results-icon { font-size: 2rem; margin-bottom: 0.5rem; }
 
-  /* ---- FOOTER ---- */
-  .legal {
-    margin-top: 3rem;
-    padding: 1.25rem;
-    border-top: 1px solid #e8e8e4;
-    text-align: center;
-    font-size: 0.72rem;
-    color: #aaa;
-    line-height: 1.6;
-    max-width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  /* ---- LEGAL ---- */
+  .legal { margin-top: 3rem; padding: 1.25rem; border-top: 1px solid #e8e8e4; text-align: center; font-size: 0.72rem; color: #aaa; line-height: 1.6; max-width: 680px; margin-left: auto; margin-right: auto; }
 
   /* ---- DESKTOP ---- */
   @media (min-width: 600px) {
@@ -409,23 +132,15 @@
     .content { padding: 2rem 2rem 4rem; }
     .event-inner { padding: 1.1rem 1.4rem; }
   }
-
-  @media (min-width: 900px) {
-    .hero-pokemon { width: 190px; }
-  }
+  @media (min-width: 900px) { .hero-pokemon { width: 190px; } }
 </style>
 </head>
 <body>
 
-<!-- =============================================
-     HERO SECTION
-     To update the seasonal Pokemon image, replace
-     the src below with your new image path.
-     ============================================= -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-eyebrow">Play! Pokemon League @ Shane's Cards</div>
+      <div class="hero-eyebrow">Play! Pokemon League</div>
       <h1>Upcoming Events</h1>
       <p class="hero-tagline">
         Whether it's your first tournament or your hundredth, there's a spot for you here.
@@ -435,9 +150,8 @@
     <div class="hero-pokemon">
       <!--
         SEASONAL POKEMON IMAGE
-        Replace this src with the path to your Sprigatito (or seasonal) image.
-        Recommended: a PNG with transparent background, roughly 300x300px.
-        Example: src="images/sprigatito.png"
+        Replace src with your image path, e.g. src="images/sprigatito.png"
+        Recommended: PNG with transparent background, ~300x300px
       -->
       <img src="images/sprigatito.png" alt="Sprigatito" onerror="this.style.display='none'">
     </div>
@@ -447,15 +161,11 @@
 <div class="content">
 
   <!-- =============================================
-       FORMAT INFO SECTION
-       Update the format names and legal set lists
-       each time the format rotates.
+       FORMAT INFO — Update when formats rotate.
        ============================================= -->
   <div class="format-section">
     <button class="format-toggle" aria-expanded="false" onclick="toggleFormats(this)">
-      <span class="format-toggle-label">
-        &#9432; What format are we playing?
-      </span>
+      <span class="format-toggle-label">&#9432; What format are we playing?</span>
       <span class="format-caret">&#9660;</span>
     </button>
     <div class="format-body" id="format-body">
@@ -465,7 +175,7 @@
         <button class="format-tab" onclick="showFormat('go', this)">GO</button>
       </div>
 
-      <!-- TCG FORMAT — Update when rotation happens -->
+      <!-- TCG FORMAT — Update when rotation happens (yearly) -->
       <div class="format-panel active" id="panel-tcg">
         <div class="format-name">Standard — Regulation H &amp; I</div>
         <p class="format-desc">
@@ -475,7 +185,8 @@
           pre-built theme decks are a totally valid way to get started.
         </p>
         <div class="format-sets">
-          <!-- UPDATE THESE TAGS WHEN THE FORMAT ROTATES -->
+          <!-- ADD a new line here each time a new set releases.
+               DELETE rotated sets when rotation happens. -->
           <span class="format-set-tag">Temporal Forces</span>
           <span class="format-set-tag">Twilight Masquerade</span>
           <span class="format-set-tag">Shrouded Fable</span>
@@ -503,27 +214,23 @@
           <strong>not permitted</strong> in Championship Point-earning events like
           Cups and Challenges, so you'll want your own registered team for those.
         </p>
-        <!-- UPDATE THESE TAGS WHEN THE REGULATION CHANGES -->
-        <!-- Regulation label -->
         <div class="format-sets" style="margin-bottom: 0.5rem;">
           <span class="format-set-tag" style="background: var(--vgc-pale); color: var(--vgc-text);">Regulation I</span>
         </div>
-        <!-- Allowed Pokedex sources -->
-        <div style="font-size: 0.72rem; font-weight: 700; font-family: var(--font-display); color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Allowed Pokédex</div>
+        <div class="format-sublabel">Allowed Pokédex</div>
         <div class="format-sets" style="margin-bottom: 0.65rem;">
           <span class="format-set-tag">Paldea Pokédex #001–400</span>
           <span class="format-set-tag">Kitakami Pokédex #001–200</span>
           <span class="format-set-tag">Blueberry Pokédex #001–242 (Except Pecharunt)</span>
           <span class="format-set-tag">Event or Pokémon HOME</span>
         </div>
-        <!-- Restrictions -->
-        <div style="font-size: 0.72rem; font-weight: 700; font-family: var(--font-display); color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Restrictions</div>
+        <div class="format-sublabel">Restrictions</div>
         <div class="format-sets">
           <span class="format-set-tag" style="background: #fff3f3; color: #8b1a1a;">2 Restricted Legendary Pokémon</span>
         </div>
       </div>
 
-      <!-- GO FORMAT — Update each season -->
+      <!-- GO FORMAT — Stable, rarely needs updating -->
       <div class="format-panel" id="panel-go">
         <div class="format-name">Pokemon GO — Battle League</div>
         <p class="format-desc">
@@ -534,7 +241,6 @@
           are available for casual play during open league sessions.
         </p>
         <div class="format-sets">
-          <!-- UPDATE THESE TAGS WHEN THE FORMAT CHANGES -->
           <span class="format-set-tag">Great League — Competitive</span>
           <span class="format-set-tag">Ultra League — Casual only</span>
           <span class="format-set-tag">Master League — Casual only</span>
@@ -543,9 +249,7 @@
     </div>
   </div>
 
-  <!-- =============================================
-       FILTERS
-       ============================================= -->
+  <!-- FILTERS -->
   <div class="filters">
     <span class="filter-label">Show:</span>
     <label class="filter-chip checked-tcg" id="chip-tcg">
@@ -562,585 +266,16 @@
     </label>
   </div>
 
-  <!-- =============================================
-       EVENTS LIST
-       HOW TO ADD AN EVENT:
-       Copy one of the <div class="event-card"> blocks below.
-       - data-type: TCG, VGC, GO, or LEAGUE
-       - data-date: YYYY-MM-DD (used for sorting/display)
-       - Update all the text fields inside.
-       - Registration period: update the "Registration" meta item with
-         the window players should arrive to check in (e.g. "9:30 – 10:45 AM")
-       - For pre-reg links, update the href on the .link-prereg anchor.
-       - Remove the prereg link block if the event has no pre-reg.
-       - Keep events in chronological order by date.
-       ============================================= -->
+  <!-- EVENTS LIST — populated dynamically from Google Sheets -->
   <div class="events-list" id="events-list">
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-04-04">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">4</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      Loading upcoming events...
     </div>
-
-    <!-- GO Challenge -->
-    <div class="event-card" data-type="GO" data-date="2025-04-04">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">4</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">April GO League Challenge</div>
-            <span class="event-badge badge-GO">GO</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:50 AM</span>
-          </div>
-          <p class="event-desc">
-            April GO League Challenge Great League rules.
-            Team Lists will be provided for players who don't have one pre-filled out.
-            Swiss rounds - BO3! Prize packs for players who attend, additional prizing for winners.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- GLC -->
-    <div class="event-card" data-type="TCG" data-date="2025-04-04">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">4</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">April Gym Leader Challenge</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:50 AM</span>
-          </div>
-          <p class="event-desc">
-            GLC format - Prize packs for participation.
-            Please see https://gymleaderchallenge.com for full rules on format/banlist.
-            No decklist required to participate.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-04-11">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">11</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- VGC Cup -->
-    <div class="event-card" data-type="VGC" data-date="2025-04-11">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">11</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">Spring VGC League Cup</div>
-            <span class="event-badge badge-VGC">VGC</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            Earn Championship Points towards your world invite! NSO subscription will be required to participate.
-            $15 registration fee. Team Lists are provided for those needing one.
-            Will be using Regulation Set I on Pokémon Scarlet and Violet.
-          </p>
-          <div class="event-footer">
-            <a class="event-link link-prereg" href="https://forms.gle/f5uK71B1CcBFEgo58" target="_blank" rel="noopener">
-              Pre-register
-            </a>
-            <!-- <a class="event-link link-info" href="#">More info</a> -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VGC Challenge -->
-    <div class="event-card" data-type="VGC" data-date="2025-04-11">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">11</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name"> April VGC League Challenge</div>
-            <span class="event-badge badge-VGC">VGC</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 3:00 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 2:00 – 2:45 PM</span>
-          </div>
-          <p class="event-desc">
-            A great first tournament for VGC players! Smaller and more casual than a Cup,
-            but still earns Championship Points. Bring your Switch and a registered team.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- TCG Cup -->
-    <div class="event-card" data-type="TCG" data-date="2025-04-18">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">18</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">Spring TCG League Cup</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            Spring League Cup!
-            
-            This tournament WILL have a cap of 48 players, please use the Pre-Registration button below - you may submit a decklist upon pre-registration.
-            
-            If you have any issues, contact me via e-mail: slandeh@icloud.com
-            
-            Deck lists will be provided to players who do not have one.
-            BO1 Swiss Rounds + BO3 Top Cut.
-            All players will receive a prize pack (series 8) for participation, top players will receive additional prizing.
-          </p>
-          <div class="event-footer">
-            <a class="event-link link-prereg" href="https://forms.gle/ArneomwcqdhabEZA6" target="_blank" rel="noopener">
-              Pre-register
-            </a>
-            <!-- <a class="event-link link-info" href="#">More info</a> -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TCG Challenge -->
-    <div class="event-card" data-type="TCG" data-date="2025-04-18">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">18</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">April TCG League Challenge</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 3:00 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 2:00 – 2:45 PM</span>
-          </div>
-          <p class="event-desc">
-            April League Challenge, BO1 Swiss.
-            All players will receive prize packs for participation, top players will receive additional prizing.
-            Deck lists will be provided for those who do not have one filled out.
-            
-            <b>This tournament will be taking place during the Top Cut of the League Cup running at the same time, and may start later than scheduled.
-              Please arrive promptly during registration if not planning to participate in the League Cup to get an accurate time of tournament start.</b>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-04-25">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">25</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weekly -->
-    <div class="event-card" data-type="TCG" data-date="2025-04-25">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">Apr</div>
-          <div class="event-date-day">25</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">TCG Weekly</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:50 AM</span>
-          </div>
-          <p class="event-desc">
-            Weekly Standard event.
-            $10 entry fee - no deck list required.
-            Series 8 Prize Packs awarded to players, with additional awarded to top placers.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-05-02">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">2</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- GO Cup -->
-    <div class="event-card" data-type="GO" data-date="2025-05-02">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">2</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">Spring GO Cup</div>
-            <span class="event-badge badge-GO">GO</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            Compete in GO Battle League format and earn Championship Points!
-            Bring a fully charged phone and your best GO Battle League team.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- GO Challenge -->
-    <div class="event-card" data-type="GO" data-date="2025-05-02">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">2</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">May GO League Challenge</div>
-            <span class="event-badge badge-GO">GO</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 1:00 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 12:00 – 12:45 PM</span>
-          </div>
-          <p class="event-desc">
-            May League Challenge, BO3 Swiss.
-            All players will receive prize packs for participation, top players will receive additional prizing.
-            Team lists will be provided for those who do not have one filled out.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- GLC -->
-    <div class="event-card" data-type="TCG" data-date="2025-05-02">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">2</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">May Gym Leader Challenge</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:50 AM</span>
-          </div>
-          <p class="event-desc">
-            GLC format - Prize packs for participation.
-            Please see https://gymleaderchallenge.com for full rules on format/banlist.
-            No decklist required to participate.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-05-09">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">9</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weekly -->
-    <div class="event-card" data-type="TCG" data-date="2025-05-09">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">9</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">TCG Weekly</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:50 AM</span>
-          </div>
-          <p class="event-desc">
-            Weekly Standard event.
-            $10 entry fee - no deck list required.
-            Series 8 Prize Packs awarded to players, with additional awarded to top placers.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRERELEASE EXAMPLE — Has pre-registration -->
-    <div class="event-card" data-type="TCG" data-date="2025-05-16">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">16</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">Chaos Rising TCG Prerelease</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Your League Location</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            Play with brand new cards before they're officially released!
-            Each player receives a Prerelease kit to build a 40-card deck on the spot.
-            No experience needed — this is one of the most beginner-friendly events we run.
-          </p>
-          <div class="event-footer">
-            <a class="event-link link-prereg" href="" target="_blank" rel="noopener">
-              Pre-registration not Available
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEAGUE PLAY -->
-    <div class="event-card" data-type="LEAGUE" data-date="2025-05-23">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">23</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">League Play</div>
-            <span class="event-badge badge-LEAGUE">League</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 10:00 AM – 1:30 PM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-          </div>
-          <p class="event-desc">
-            Open league play for TCG, VGC, and GO players. Come battle, trade, and hang out!
-            All skill levels welcome — our League Leaders are happy to teach new players.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- VGC Challenge -->
-    <div class="event-card" data-type="VGC" data-date="2025-05-23">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">23</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name"> May VGC League Challenge</div>
-            <span class="event-badge badge-VGC">VGC</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            A great first tournament for VGC players! Smaller and more casual than a Cup,
-            but still earns Championship Points. Bring your Switch and a registered team.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- TCG Challenge -->
-    <div class="event-card" data-type="TCG" data-date="2025-05-30">
-      <div class="event-inner">
-        <div class="event-date">
-          <div class="event-date-month">May</div>
-          <div class="event-date-day">30</div>
-          <div class="event-date-dow">Sat</div>
-        </div>
-        <div class="event-details">
-          <div class="event-header">
-            <div class="event-name">May TCG League Challenge</div>
-            <span class="event-badge badge-TCG">TCG</span>
-          </div>
-          <div class="event-meta">
-            <span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> 11:00 AM</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> Shane's Cards</span>
-            <span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: 10:00 – 10:45 AM</span>
-          </div>
-          <p class="event-desc">
-            May League Challenge, BO1 Swiss.
-            All players will receive prize packs for participation, top players will receive additional prizing.
-            Deck lists will be provided for those who do not have one filled out.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- NO RESULTS MESSAGE (hidden by default) -->
-    <div class="no-results" id="no-results" style="display:none;">
-      <div class="no-results-icon">&#128269;</div>
-      <div>No events match your current filters.<br>Try selecting more event types above!</div>
-    </div>
-
   </div>
-  <!-- end events-list -->
 
 </div>
-<!-- end content -->
 
-<!-- LEGAL FOOTER -->
 <div class="legal">
   This page is not affiliated with, sponsored by, or created by The Pokémon Company International or Nintendo.
   All Pokémon names, imagery, and related media are trademarks and &copy; of The Pokémon Company International,
@@ -1149,47 +284,231 @@
 </div>
 
 <script>
-  function toggleFormats(btn) {
-    var body = document.getElementById('format-body');
-    var expanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', !expanded);
-    body.classList.toggle('open', !expanded);
+  /* =============================================
+     GOOGLE SHEETS CONFIG
+     Fill in these three values after setup:
+
+     SHEET_ID  — the long ID from your Sheet URL
+                 e.g. https://docs.google.com/spreadsheets/d/SHEET_ID_HERE/edit
+     API_KEY   — your restricted Google Sheets API key
+     SHEET_TAB — name of the tab where Form responses land
+                 (check the tab at the bottom of your Sheet,
+                 usually "Form Responses 1")
+     ============================================= */
+  var SHEET_ID  = '1tQ_UUiUiWQx6pKKfADwhuTERHphFhmM0AlADmpxvpeg';
+  var API_KEY   = 'AIzaSyA1hV3-k6Aeme0CU73JeNiwnadxecN_9-U';
+  var SHEET_TAB = 'Form Responses 1';
+
+  /* =============================================
+     COLUMN INDEX MAP (0-based)
+     These match the order Google Forms writes
+     columns into the Sheet. Column 0 is always
+     the auto-generated Timestamp from Google.
+     If you reorder Form questions, update these.
+     ============================================= */
+  var COL = {
+    timestamp:    0,
+    date:         1,   // YYYY-MM-DD
+    name:         2,   // Event name
+    type:         3,   // TCG | VGC | GO | LEAGUE
+    time:         4,   // e.g. "11:00 AM"
+    registration: 5,   // e.g. "10:00 – 10:45 AM"
+    location:     6,
+    description:  7,
+    prereg_url:   8    // optional — leave blank if none
+  };
+
+  var allEvents = [];
+
+  /* ---- DATE PARSER ----
+     Handles multiple formats Google Forms may output:
+       YYYY-MM-DD       (short answer, preferred)
+       M/D/YYYY         (Google date picker, US locale)
+       MM/DD/YYYY
+       Month D, YYYY    (e.g. "April 12, 2025")
+     Returns a Date at midnight local time, or null if unparseable.
+  ---- */
+  function parseDate(str) {
+    if (!str) return null;
+    str = str.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+      var p = str.split('-');
+      return new Date(+p[0], +p[1] - 1, +p[2]);
+    }
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)) {
+      var p = str.split('/');
+      return new Date(+p[2], +p[0] - 1, +p[1]);
+    }
+    var fallback = new Date(str);
+    return isNaN(fallback) ? null : fallback;
   }
 
-  var activeFormatTab = 'tcg';
-  function showFormat(type, btn) {
-    document.querySelectorAll('.format-panel').forEach(function(p) { p.classList.remove('active'); });
-    document.querySelectorAll('.format-tab').forEach(function(t) {
-      t.className = 'format-tab';
-    });
-    document.getElementById('panel-' + type).classList.add('active');
-    btn.classList.add('active-' + type);
-    activeFormatTab = type;
+  /* ---- TIME FORMATTER ----
+     Strips seconds from Google Forms time output.
+     "11:00:00 AM" -> "11:00 AM"
+     "9:30:00 PM"  -> "9:30 PM"
+     Passes through anything it doesn't recognize unchanged.
+  ---- */
+  function formatTime(str) {
+    if (!str) return str;
+    return str.trim().replace(/^(\d{1,2}:\d{2}):\d{2}(\s*[APap][Mm]?)$/, '$1$2');
   }
 
-  function applyFilters() {
+  /* ---- FETCH FROM GOOGLE SHEETS ---- */
+  function loadEvents() {
+    var range = encodeURIComponent(SHEET_TAB + '!A2:I');
+    var url   = 'https://sheets.googleapis.com/v4/spreadsheets/'
+              + SHEET_ID + '/values/' + range
+              + '?key=' + API_KEY;
+
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        var rows  = data.values || [];
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        allEvents = rows
+          .filter(function(row) {
+            if (!row[COL.date] || !row[COL.name]) return false;
+            var d = parseDate(row[COL.date]);
+            return d && d >= today;
+          })
+          .sort(function(a, b) {
+            return parseDate(a[COL.date]) - parseDate(b[COL.date]);
+          });
+
+        renderEvents();
+      })
+      .catch(function(err) {
+        document.getElementById('events-list').innerHTML =
+          '<div class="error-state">' +
+            '<div class="error-icon">&#9888;</div>' +
+            'Events could not be loaded right now.<br>' +
+            '<small>Please check back shortly or contact your League Leader.</small>' +
+          '</div>';
+        console.error('Sheets fetch error:', err);
+      });
+  }
+
+  /* ---- BUILD A SINGLE EVENT CARD ---- */
+  function buildCard(row) {
+    var date     = row[COL.date]         || '';
+    var name     = row[COL.name]         || 'Unnamed Event';
+    var type     = (row[COL.type]        || 'LEAGUE').toUpperCase();
+    var time     = formatTime(row[COL.time] || '');
+    var reg      = row[COL.registration] || '';
+    var location = row[COL.location]     || '';
+    var desc     = row[COL.description]  || '';
+    var prereg   = row[COL.prereg_url]   || '';
+
+    var d     = parseDate(date) || new Date();
+    var month = d.toLocaleString('en-US', { month: 'short' });
+    var day   = d.getDate();
+    var dow   = d.toLocaleString('en-US', { weekday: 'short' });
+
+    var badgeLabel = type === 'LEAGUE' ? 'League' : type;
+
+    var metaItems =
+      (time     ? '<span class="event-meta-item"><span class="event-meta-icon">&#128337;</span> ' + time + '</span>' : '') +
+      (location ? '<span class="event-meta-item"><span class="event-meta-icon">&#128205;</span> ' + location + '</span>' : '') +
+      (reg      ? '<span class="event-meta-item"><span class="event-meta-icon">&#9989;</span> Registration: ' + reg + '</span>' : '');
+
+    var footer = prereg
+      ? '<div class="event-footer"><a class="event-link link-prereg" href="' + prereg + '" target="_blank" rel="noopener">Pre-register</a></div>'
+      : '';
+
+    return (
+      '<div class="event-card" data-type="' + type + '" data-date="' + date + '">' +
+        '<div class="event-inner">' +
+          '<div class="event-date">' +
+            '<div class="event-date-month">' + month + '</div>' +
+            '<div class="event-date-day">'   + day   + '</div>' +
+            '<div class="event-date-dow">'   + dow   + '</div>' +
+          '</div>' +
+          '<div class="event-details">' +
+            '<div class="event-header">' +
+              '<div class="event-name">' + name + '</div>' +
+              '<span class="event-badge badge-' + type + '">' + badgeLabel + '</span>' +
+            '</div>' +
+            '<div class="event-meta">' + metaItems + '</div>' +
+            (desc ? '<p class="event-desc">' + desc + '</p>' : '') +
+            footer +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ---- RENDER WITH ACTIVE FILTERS ---- */
+  function renderEvents() {
     var tcg = document.querySelector('#chip-tcg input').checked;
     var vgc = document.querySelector('#chip-vgc input').checked;
     var go  = document.querySelector('#chip-go input').checked;
 
+    var visible = allEvents.filter(function(row) {
+      var type = (row[COL.type] || '').toUpperCase();
+      return type === 'LEAGUE' ||
+             (type === 'TCG' && tcg) ||
+             (type === 'VGC' && vgc) ||
+             (type === 'GO'  && go);
+    });
+
+    var list = document.getElementById('events-list');
+
+    if (allEvents.length === 0) {
+      list.innerHTML =
+        '<div class="no-results">' +
+          '<div class="no-results-icon">&#128197;</div>' +
+          'No upcoming events scheduled yet.<br>Check back soon!' +
+        '</div>';
+      return;
+    }
+
+    if (visible.length === 0) {
+      list.innerHTML =
+        '<div class="no-results">' +
+          '<div class="no-results-icon">&#128269;</div>' +
+          'No events match your current filters.<br>' +
+          'Try selecting more event types above!' +
+        '</div>';
+      return;
+    }
+
+    list.innerHTML = visible.map(buildCard).join('');
+  }
+
+  /* ---- FILTER CHIPS ---- */
+  function applyFilters() {
+    var tcg = document.querySelector('#chip-tcg input').checked;
+    var vgc = document.querySelector('#chip-vgc input').checked;
+    var go  = document.querySelector('#chip-go input').checked;
     document.getElementById('chip-tcg').className = 'filter-chip' + (tcg ? ' checked-tcg' : '');
     document.getElementById('chip-vgc').className = 'filter-chip' + (vgc ? ' checked-vgc' : '');
     document.getElementById('chip-go').className  = 'filter-chip' + (go  ? ' checked-go'  : '');
-
-    var cards = document.querySelectorAll('.event-card');
-    var visible = 0;
-    cards.forEach(function(card) {
-      var type = card.getAttribute('data-type');
-      var show = type === 'LEAGUE' ||
-                 (type === 'TCG' && tcg) ||
-                 (type === 'VGC' && vgc) ||
-                 (type === 'GO'  && go);
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-
-    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    renderEvents();
   }
+
+  /* ---- FORMAT PANEL CONTROLS ---- */
+  function toggleFormats(btn) {
+    var body     = document.getElementById('format-body');
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    body.classList.toggle('open', !expanded);
+  }
+
+  function showFormat(type, btn) {
+    document.querySelectorAll('.format-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.format-tab').forEach(function(t) { t.className = 'format-tab'; });
+    document.getElementById('panel-' + type).classList.add('active');
+    btn.classList.add('active-' + type);
+  }
+
+  /* ---- INIT ---- */
+  loadEvents();
 </script>
 </body>
 </html>
