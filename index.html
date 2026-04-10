@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>League Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tcg:    #3b6fa0;
+    --vgc:    #c0392b;
+    --go:     #4a9e5c;
+    --league: #c8960c;
+    --ink:    #0f0f14;
+    --paper:  #f5f4ef;
+    --mid:    #e8e6de;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- ANIMATED BACKGROUND GRID ---- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 1.5rem 0;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .header-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,244,239,0.45);
+    margin-bottom: 0.75rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 14vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.25rem;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .header-title span {
+    display: block;
+  }
+
+  .title-league { color: var(--paper); }
+  .title-hub    {
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(245,244,239,0.25);
+  }
+
+  .header-desc {
+    font-size: 1rem;
+    color: rgba(245,244,239,0.6);
+    line-height: 1.65;
+    max-width: 420px;
+    margin: 0 auto 3rem;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  /* ---- SECTION WRAPPER ---- */
+  .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+  /* ---- SECTION LABEL ---- */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,244,239,0.35);
+    margin-bottom: 0.85rem;
+    padding-left: 0.1rem;
+  }
+
+  /* ---- NAV CARDS ---- */
+  .nav-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+
+  @media (min-width: 520px) {
+    .nav-grid { grid-template-columns: 1fr 1fr; }
+    .nav-card.wide { grid-column: span 2; }
+    /* Wide card gets larger image offset so it doesn't overscale */
+    .card-results {
+      background-size: auto 140%;
+      background-position: center right 40px;
+    }
+  }
+
+  .nav-card {
+    display: block;
+    text-decoration: none;
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+  }
+
+  .nav-card:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+
+  .nav-card::after {
+    content: '→';
+    position: absolute;
+    right: 1.4rem;
+    bottom: 1.4rem;
+    font-size: 1.2rem;
+    opacity: 0.4;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .nav-card:hover::after { opacity: 1; transform: translateX(4px); }
+
+  /* Card color themes */
+  /*
+    CARD BACKGROUND IMAGES
+    Place your images in your repo's images/ folder.
+    Recommended: PNG with transparent background, ~400x400px.
+    The image is anchored to the right, fades toward the left,
+    and sits behind a color overlay so text stays readable.
+      card-events   → images/mega-feraligatr.png
+      card-pairings → images/mega-emboar.png
+      card-results  → images/mega-meganium.png
+  */
+  .card-events {
+    background-color: #1a3a5c;
+    background-image:
+      linear-gradient(to right, #1a3a5c 30%, rgba(26,58,92,0.55) 100%),
+      url('images/mega-feraligatr.png');
+    background-position: center right -10px;
+    background-size: auto 115%;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(59,111,160,0.5);
+  }
+  .card-pairings {
+    background-color: #3a1a1a;
+    background-image:
+      linear-gradient(to right, #3a1a1a 30%, rgba(58,26,26,0.55) 100%),
+      url('images/mega-emboar.png');
+    background-position: center right -10px;
+    background-size: auto 115%;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(192,57,43,0.5);
+  }
+  .card-results {
+    background-color: #1a2e1a;
+    background-image:
+      linear-gradient(to right, #1a2e1a 30%, rgba(26,46,26,0.55) 100%),
+      url('images/mega-meganium.png');
+    background-position: center right -10px;
+    background-size: auto 115%;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(74,158,92,0.5);
+  }
+
+  .card-accent {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+  .card-events  .card-accent { background: rgba(59,111,160,0.3);  color: #7ab3e0; }
+  .card-pairings .card-accent { background: rgba(192,57,43,0.3); color: #e07a7a; }
+  .card-results  .card-accent { background: rgba(74,158,92,0.3);  color: #7ac48a; }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--paper);
+    margin-bottom: 0.4rem;
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: rgba(245,244,239,0.55);
+    line-height: 1.55;
+    max-width: 280px;
+  }
+
+  /* ---- LEAGUE INFO ---- */
+  .info-section {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s 0.4s ease both;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 520px) {
+    .info-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .info-block {}
+
+  .info-block-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,244,239,0.35);
+    margin-bottom: 0.3rem;
+  }
+
+  .info-block-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--paper);
+    line-height: 1.5;
+  }
+
+  .info-block-sub {
+    font-size: 0.8rem;
+    color: rgba(245,244,239,0.45);
+    margin-top: 0.15rem;
+  }
+
+  .format-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .format-pill {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .pill-tcg    { background: rgba(59,111,160,0.25);  color: #7ab3e0; border: 1px solid rgba(59,111,160,0.4); }
+  .pill-vgc    { background: rgba(192,57,43,0.25);   color: #e07a7a; border: 1px solid rgba(192,57,43,0.4); }
+  .pill-go     { background: rgba(74,158,92,0.25);   color: #7ac48a; border: 1px solid rgba(74,158,92,0.4); }
+  .pill-league { background: rgba(200,150,12,0.25);  color: #e8c060; border: 1px solid rgba(200,150,12,0.4); }
+
+  /* ---- ANNOUNCEMENTS ---- */
+  .announcements {
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  .announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .announcement {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid rgba(255,255,255,0.15);
+    border-radius: 0 12px 12px 0;
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  /* Announcement accent colors — change border-left per item type */
+  .announcement.ann-tcg    { border-left-color: var(--tcg); }
+  .announcement.ann-vgc    { border-left-color: var(--vgc); }
+  .announcement.ann-go     { border-left-color: var(--go); }
+  .announcement.ann-league { border-left-color: var(--league); }
+  .announcement.ann-info   { border-left-color: rgba(245,244,239,0.3); }
+
+  .announcement-date {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,244,239,0.3);
+    white-space: nowrap;
+    padding-top: 2px;
+    min-width: 52px;
+  }
+
+  .announcement-text {
+    font-size: 0.88rem;
+    color: rgba(245,244,239,0.8);
+    line-height: 1.55;
+  }
+
+  .announcement-text strong {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  /* ---- FOOTER ---- */
+  .legal {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    font-size: 0.68rem;
+    color: rgba(245,244,239,0.2);
+    line-height: 1.7;
+    padding: 0 1.25rem 2rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Shane's Play! Pokémon League</div>
+  <h1 class="header-title">
+    <span class="title-league">League</span>
+    <span class="title-hub">Hub</span>
+  </h1>
+  <!-- UPDATE: Replace with a short welcoming description of your league -->
+  <p class="header-desc">
+    Your home for league events, tournament pairings, and results.
+    Everything you need, all in one place.
+  </p>
+</header>
+
+<div class="page">
+
+  <!-- =============================================
+       NAVIGATION CARDS
+       Update hrefs if your file names change.
+       ============================================= -->
+  <div class="section-label">Quick links</div>
+  <div class="nav-grid">
+
+    <a class="nav-card card-events" href="events.html">
+      <div class="card-accent">Upcoming</div>
+      <div class="card-title">Events</div>
+      <p class="card-desc">Cups, Challenges, Prereleases, and League Play sessions with dates, times, and registration links.</p>
+    </a>
+
+    <a class="nav-card card-pairings" href="pairings.html">
+      <div class="card-accent">Live</div>
+      <div class="card-title">Pairings</div>
+      <p class="card-desc">Current round pairings updated in real time during tournaments. Pin your name to find your table fast.</p>
+    </a>
+
+    <a class="nav-card card-results wide" href="results/">
+      <div class="card-accent">Archive</div>
+      <div class="card-title">Results</div>
+      <p class="card-desc">Final standings and results from past Cups, Challenges, and Prereleases.</p>
+    </a>
+
+  </div>
+
+  <!-- =============================================
+       LEAGUE INFO
+       UPDATE each field with your real league info.
+       ============================================= -->
+  <div class="section-label">About the league</div>
+  <div class="info-section">
+    <div class="info-grid">
+
+      <div class="info-block">
+        <div class="info-block-label">League location</div>
+        <!-- UPDATE: Your store/venue name and city -->
+        <div class="info-block-value">Shane's Cards</div>
+        <div class="info-block-sub">Renton, WA</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-label">Regular league day</div>
+        <!-- UPDATE: Your regular meeting day and time -->
+        <div class="info-block-value">Saturdays</div>
+        <div class="info-block-sub">10:00 AM – 2:00 PM</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-label">Formats played</div>
+        <div class="format-pills">
+          <span class="format-pill pill-tcg">TCG</span>
+          <span class="format-pill pill-vgc">VGC</span>
+          <span class="format-pill pill-go">GO</span>
+          <span class="format-pill pill-league">League Play</span>
+        </div>
+      </div>
+
+      <div class="info-block" style="grid-column: 1 / -1;">
+        <div class="info-block-label">About us</div>
+        <!-- UPDATE: A sentence or two about your league -->
+        <div class="info-block-value">
+          We are a friendly, competitive Play! Pokémon league welcoming players of all skill levels.
+          Whether you're picking up your first deck or chasing Championship Points, you'll find a great community here.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================================
+       ANNOUNCEMENTS
+       HOW TO ADD AN ANNOUNCEMENT:
+       Copy one of the <div class="announcement"> blocks below.
+       - Change the class after "announcement" to set the accent color:
+           ann-tcg | ann-vgc | ann-go | ann-league | ann-info
+       - Update the date and text inside.
+       - Keep the most recent announcement at the top.
+       - Remove old announcements when they are no longer relevant.
+       ============================================= -->
+  <div class="announcements">
+    <div class="section-label">Announcements</div>
+    <div class="announcement-list">
+
+      <div class="announcement ann-info">
+        <div class="announcement-date">Apr 10</div>
+        <div class="announcement-text">
+          <strong>Welcome to the new league hub!</strong> You can now find events, pairings, and results all in one place.
+        </div>
+      </div>
+
+      <div class="announcement ann-tcg">
+        <div class="announcement-date">Apr 10</div>
+        <div class="announcement-text">
+          <strong>TCG format update:</strong> Standard has rotated to Regulation H, I, &amp; J effective today. Make sure your deck is legal before your next event!
+        </div>
+      </div>
+
+      <div class="announcement ann-vgc">
+        <div class="announcement-date">Apr 10</div>
+        <div class="announcement-text">
+          <strong>VGC moves to Regulation I</strong> this month. Check the Events page for format details and allowed Pokédex.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="legal">
+  This page is not affiliated with, sponsored by, or created by The Pokémon Company International or Nintendo.
+  All Pokémon names, imagery, and related media are trademarks and &copy; of The Pokémon Company International,
+  Nintendo, and Game Freak. Play! Pokémon logos and league assets used with permission for league operations only.
+</div>
+
+</body>
+</html>
